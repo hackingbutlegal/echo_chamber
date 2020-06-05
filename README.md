@@ -3,7 +3,7 @@ A Python Script for #BlackLivesMatter and Other Important Topics
 
 **Hi! 👋🏽**
 
-I wrote a little tool in Python today to either greatly improve your Twitter signal-to-noise ratio or strengthen your echo chamber, depending on how you look at it.
+I wrote a little tool in Python to either greatly improve your Twitter signal-to-noise ratio or strengthen your echo chamber, depending on how you look at it.
 
 ![](https://media.giphy.com/media/3o85xIO33l7RlmLR4I/giphy.gif)
 
