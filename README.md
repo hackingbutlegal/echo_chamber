@@ -1,4 +1,4 @@
-# echo-chamber
+# echo_chamber
 A Python Script for #BlackLivesMatter and Other Important Topics
 
 **Hi! 👋🏽**
