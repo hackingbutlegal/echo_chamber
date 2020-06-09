@@ -5,6 +5,20 @@ import os
 import json
 from twitter import OAuth, Twitter
 
+def construct_message(user_id, message):
+    """Return a JSON object that contains the message."""
+    json_obj = {
+        "event": {
+            "type": "message_create",
+            "message_create": {
+                "target": {
+                    "recipient_id": user_id},
+                "message_data": {
+                    "text": message}}}
+    }
+
+    return json_obj
+
 # REPLACE THESE PLACEHOLDERS WITH YOUR TWITTER API KEYS
 t = Twitter(
     auth=OAuth('token', 'token_secret', 'consumer_key', 'consumer_secret'))
@@ -39,10 +53,18 @@ for line in followingList:
 
     # STRIP UNNECESSARY CHARACTERS
     line = line[2:-1]
-
     # DM TEMPLATES
-    MSG_DISAPPOINT = "Hi {tweep}. I've noticed you haven't directly tweeted in support of #BlackLivesMatter. It's really important. Please consider doing so.".format(tweep=line)
-    MSG_THANKS = "Hi {tweep}. I just wanted to thank you personally for supporting #BlackLivesMatter. Thank you.".format(tweep=line)
+    MSG_DISAPPOINT = "".join((
+        "Hi ", line, ". ",
+        "I've noticed you haven't directly tweeted in support of #BlackLivesMatter. ",
+        "It's really important. Please consider doing so."
+    ))
+
+    MSG_THANKS = "".join((
+        "Hi ", line, ". ",
+        "I just wanted to thank you personally for supporting #BlackLivesMatter. ",
+        "Thank you."
+    ))
 
     # QUERY THE API WITH PROPER FORMATTING
     query = t.search.tweets(q="from:{} {} ".format(line, HASHTAG), tweet_mode='extended')
@@ -61,14 +83,8 @@ for line in followingList:
 
         try:
             t.direct_messages.events.new(
-                _json={
-                    "event": {
-                        "type": "message_create",
-                        "message_create": {
-                            "target": {
-                                "recipient_id": t.users.show(screen_name=line)["id"]},
-                            "message_data": {
-                                "text": MSG_THANKS}}}})
+                _json=construct_message(t.users.show(screen_name=line)["id"], MSG_THANKS)
+            )
         except IOError:
             could_not_send_dm.append(line)
 
@@ -80,14 +96,8 @@ for line in followingList:
 
         try:
             t.direct_messages.events.new(
-                _json={
-                    "event": {
-                        "type": "message_create",
-                        "message_create": {
-                            "target": {
-                                "recipient_id": t.users.show(screen_name=line)["id"]},
-                            "message_data": {
-                                "text": MSG_DISAPPOINT}}}})
+                _json=construct_message(t.users.show(screen_name=line)["id"], MSG_DISAPPOINT)
+            )
         except IOError:
             could_not_send_dm.append(line)
 
@@ -98,8 +108,17 @@ for line in followerList:
     line = line[2:-1]
 
     # DM TEMPLATES
-    MSG_DISAPPOINT = "Hi {tweep}. I've noticed you haven't directly tweeted in support of #BlackLivesMatter. It's really important. Please consider doing so.".format(tweep=line)
-    MSG_THANKS = "Hi {tweep}. I just wanted to thank you personally for supporting #BlackLivesMatter. Thank you.".format(tweep=line)
+    MSG_DISAPPOINT = "".join((
+        "Hi ", line, ". ",
+        "I've noticed you haven't directly tweeted in support of #BlackLivesMatter. ",
+        "It's really important. Please consider doing so."
+    ))
+
+    MSG_THANKS = "".join((
+        "Hi ", line, ". ",
+        "I just wanted to thank you personally for supporting #BlackLivesMatter. ",
+        "Thank you."
+    ))
 
     # QUERY THE API WITH PROPER FORMATTING
     query = t.search.tweets(q="from:{} {} ".format(line, HASHTAG), tweet_mode='extended')
@@ -114,14 +133,8 @@ for line in followerList:
         if line not in did_tweet:
             try:
                 t.direct_messages.events.new(
-                    _json={
-                        "event": {
-                            "type": "message_create",
-                            "message_create": {
-                                "target": {
-                                    "recipient_id": t.users.show(screen_name=line)["id"]},
-                                "message_data": {
-                                    "text": MSG_THANKS}}}})
+                    _json=construct_message(t.users.show(screen_name=line)["id"], MSG_THANKS)
+                )
             except IOError:
                 could_not_send_dm.append(line)
 
@@ -134,14 +147,8 @@ for line in followerList:
         if line not in did_not_tweet:
             try:
                 t.direct_messages.events.new(
-                    _json={
-                        "event": {
-                            "type": "message_create",
-                            "message_create": {
-                                "target": {
-                                    "recipient_id": t.users.show(screen_name=line)["id"]},
-                                "message_data": {
-                                    "text": MSG_DISAPPOINT}}}})
+                    _json=construct_message(t.users.show(screen_name=line)["id"], MSG_DISAPPOINT)
+                )
             except IOError:
                 could_not_send_dm.append(line)
 
