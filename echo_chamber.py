@@ -1,4 +1,4 @@
-# https://github.com/find-evil/echo-chamber
+# https://github.com/find-evil/echo_chamber
 # https://jackie.lol/posts/presenting-echo-chamber-a-python-tool-for-blacklivesmatter/
 
 import os
