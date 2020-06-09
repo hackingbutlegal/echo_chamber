@@ -32,13 +32,12 @@ I wrote a little tool in Python to either greatly improve your Twitter signal-to
 * Create an application and [generate](https://developer.twitter.com/) Twitter API keys
 * Download .py from [Github](https://github.com/find-evil/echo-chamber)
 * pip install twitter
-* pip install dictor
 * Edit the following variables:
   * Twitter API key placeholders
   * your_username - Your Twitter account's username
-  * str1 - The string you want to search for.
-  * msg_disappoint - What you send to those who haven't tweeted that string (there are two of these)
-  * msg_thanks - What you send to those who have (there are also two of these)
+  * HASHTAG - The string you want to search for.
+  * MSG_DISAPPOINT - What you send to those who haven't tweeted that string (there are two of these)
+  * MSG_THANKS - What you send to those who have (there are also two of these)
 
 Finally, run the code like this:
 
